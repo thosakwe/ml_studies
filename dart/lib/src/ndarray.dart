@@ -90,6 +90,11 @@ class NDArray extends IterableBase<double> {
       throw UnimplementedError('more dot products to come...');
     }
   }
+
+  @override
+  int get length => value.length;
+
+  double operator [](int index) => value[index];
 }
 
 /// Compares [NDArray] shapes.

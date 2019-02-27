@@ -9,4 +9,12 @@ class Network {
   }
 
   void add(Layer layer) => layers.add(layer);
+
+  NDArray predict(NDArray inputs) {
+    for (var layer in layers) {
+      inputs = layer.apply(inputs);
+    }
+
+    return inputs;
+  }
 }
