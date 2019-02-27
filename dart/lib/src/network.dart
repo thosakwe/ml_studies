@@ -7,4 +7,6 @@ class Network {
   Network({Iterable<Layer> layers = const []}) {
     this.layers.addAll(layers ?? []);
   }
+
+  void add(Layer layer) => layers.add(layer);
 }

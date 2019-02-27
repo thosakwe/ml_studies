@@ -5,7 +5,5 @@ void main() {
   var xs = NDArray.range(0, 100);
   var ys = (xs * 3) + 2;
 
-  var network = Network(layers: [
-    Dense(1),
-  ]);
+  var network = Network(layers: [Dense(1, activation: linear, useBias: false)]);
 }

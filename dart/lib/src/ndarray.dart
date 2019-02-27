@@ -36,6 +36,15 @@ class NDArray extends IterableBase<double> {
       var dObj = obj.toDouble();
       var newValue = value.map((x) => f(x, dObj));
       return NDArray(newValue, shape: shape);
+    } else if (obj is NDArray) {
+      // TODO: Validate shape is compatible
+      var newValue = <double>[];
+
+      for (int i = 0; i < value.length; i++) {
+        newValue.add(f(value[i], obj.value[i]));
+      }
+
+      return NDArray(newValue, shape: shape);
     }
 
     throw ArgumentError(obj);
@@ -59,7 +68,7 @@ class NDArray extends IterableBase<double> {
   bool operator ==(other) {
     return other is NDArray &&
         ListEquality().equals(value, other.value) &&
-        ListEquality().equals(shape, other.shape);
+        ShapeEquality().equals(shape, other.shape);
   }
 
   NDArray operator *(other) => binary(other, (a, b) => a * b);
@@ -67,4 +76,41 @@ class NDArray extends IterableBase<double> {
   NDArray operator %(other) => binary(other, (a, b) => a % b);
   NDArray operator +(other) => binary(other, (a, b) => a + b);
   NDArray operator -(other) => binary(other, (a, b) => a - b);
+
+  NDArray matmul(NDArray other) {
+    throw UnimplementedError();
+  }
+
+  NDArray dot(NDArray other) {
+    if (shape.length == 1 && other.shape.length == 1) {
+      return this * other;
+    } else if (shape.length == 2 && other.shape.length == 2) {
+      return matmul(other);
+    } else {
+      throw UnimplementedError('more dot products to come...');
+    }
+  }
+}
+
+/// Compares [NDArray] shapes.
+class ShapeEquality implements Equality<List<int>> {
+  const ShapeEquality();
+
+  @override
+  bool equals(List<int> e1, List<int> e2) {
+    if (e1.length != e2.length) return false;
+
+    for (int i = 0; i < e1.length; i++) {
+      var a = e1[i], b = e2[i];
+      if (a != -1 && b != -1 && a != b) return false;
+    }
+
+    return true;
+  }
+
+  @override
+  int hash(List<int> e) => ListEquality<int>().hash(e);
+
+  @override
+  bool isValidKey(Object o) => o is List<int>;
 }

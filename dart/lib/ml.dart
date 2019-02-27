@@ -1,3 +1,4 @@
+export 'src/activations/linear.dart';
 export 'src/layers/dense.dart';
 export 'src/activation.dart';
 export 'src/layer.dart';

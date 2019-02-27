@@ -1,7 +1,21 @@
+import 'dart:math';
 import 'package:collection/collection.dart';
 import 'ndarray.dart';
 
 abstract class Layer {
+  static Random _rnd;
+
+  static Random get random => _rnd ??= Random();
+
+  static void seedRandom(int seed) {
+    if (_rnd != null) {
+      throw StateError(
+          'The static Random has already been set. Do this *before* creating any layers.');
+    } else {
+      _rnd = Random(seed);
+    }
+  }
+
   List<int> _inputShape;
 
   List<int> get inputShape => _inputShape;
