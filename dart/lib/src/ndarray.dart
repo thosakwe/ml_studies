@@ -10,6 +10,14 @@ class NDArray extends IterableBase<double> {
   /// The dimensions of the array.
   final List<int> shape;
 
+  /// Generates an NDArray from a range of values.
+  factory NDArray.range(double lower, double upper,
+      {Iterable<int> shape = const [1]}) {
+    var value =
+        List<double>.generate((upper - lower).toInt(), (i) => lower + i);
+    return NDArray(value, shape: shape);
+  }
+
   NDArray(Iterable<double> value, {Iterable<int> shape = const [1]})
       : this.shape = shape.toList(),
         this.value = value.toList() {
@@ -22,6 +30,17 @@ class NDArray extends IterableBase<double> {
 
   @override
   Iterator<double> get iterator => value.iterator;
+
+  /// Computes a new NDArray after performing an operation [f] on this and another value.
+  NDArray binary(obj, double Function(double, double) f) {
+    if (obj is num) {
+      var dObj = obj.toDouble();
+      var newValue = value.map((x) => f(x, dObj));
+      return NDArray(newValue, shape: shape);
+    }
+
+    throw ArgumentError(obj);
+  }
 
   /// Returns a new [NDArray], with an identical [value], but a different [shape].
   NDArray reshape(Iterable<int> newShape) {
@@ -43,4 +62,10 @@ class NDArray extends IterableBase<double> {
         ListEquality().equals(value, other.value) &&
         ListEquality().equals(shape, other.shape);
   }
+
+  NDArray operator *(other) => binary(other, (a, b) => a * b);
+  NDArray operator /(other) => binary(other, (a, b) => a / b);
+  NDArray operator %(other) => binary(other, (a, b) => a % b);
+  NDArray operator +(other) => binary(other, (a, b) => a + b);
+  NDArray operator -(other) => binary(other, (a, b) => a - b);
 }
