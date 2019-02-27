@@ -16,6 +16,8 @@ abstract class Layer {
     }
   }
 
+  final double learningRate;
+
   List<int> _inputShape;
 
   List<int> get inputShape => _inputShape;
@@ -28,7 +30,7 @@ abstract class Layer {
     }
   }
 
-  Layer({Iterable<int> inputShape}) {
+  Layer({Iterable<int> inputShape, this.learningRate}) {
     if (inputShape != null) {
       this.inputShape = inputShape.toList();
     }

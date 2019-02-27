@@ -1,5 +1,6 @@
 export 'src/activations/linear.dart';
 export 'src/layers/dense.dart';
+export 'src/losses/mse.dart';
 export 'src/activation.dart';
 export 'src/layer.dart';
 export 'src/loss.dart';

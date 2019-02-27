@@ -10,8 +10,9 @@ class Dense extends Layer {
       {this.activation = linear,
       this.useBias = true,
       int inputDimensions,
-      Iterable<int> inputShape})
-      : super(inputShape: inputShape) {
+      Iterable<int> inputShape,
+      double learningRate = 0.001})
+      : super(inputShape: inputShape, learningRate: learningRate) {
     if (inputShape == null && inputDimensions != null) {
       this.inputShape = [-1, inputDimensions];
     }
