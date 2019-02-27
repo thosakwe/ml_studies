@@ -1,3 +1,6 @@
+import 'package:collection/collection.dart';
+import 'ndarray.dart';
+
 abstract class Layer {
   List<int> _inputShape;
 
@@ -16,4 +19,10 @@ abstract class Layer {
       this.inputShape = inputShape.toList();
     }
   }
+
+  void verify(NDArray array) {
+    // TODO: Shape validation
+  }
+
+  NDArray apply(NDArray inputs);
 }
