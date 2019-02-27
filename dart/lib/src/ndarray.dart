@@ -11,17 +11,16 @@ class NDArray extends IterableBase<double> {
   final List<int> shape;
 
   /// Generates an NDArray from a range of values.
-  factory NDArray.range(double lower, double upper,
-      {Iterable<int> shape = const [1]}) {
+  factory NDArray.range(double lower, double upper, {Iterable<int> shape}) {
     var value =
         List<double>.generate((upper - lower).toInt(), (i) => lower + i);
     return NDArray(value, shape: shape);
   }
 
-  NDArray(Iterable<double> value, {Iterable<int> shape = const [1]})
-      : this.shape = shape.toList(),
+  NDArray(Iterable<double> value, {Iterable<int> shape})
+      : this.shape = (shape ?? [value.length]).toList(),
         this.value = value.toList() {
-    var size = shape.reduce((a, b) => a * b);
+    var size = this.shape.reduce((a, b) => a * b);
 
     if (size != value.length) {
       throw ArgumentError.value(value, 'value', 'must have length $size');
